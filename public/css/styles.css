@@ -1,0 +1,80 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Arial;
+	background: #ffffff;
+	color: #000000;
+}
+
+h1, h2 {
+	margin-top: 0;
+}
+
+.bar {
+	padding: 10px;
+	border-bottom: 1px solid #000;
+}
+
+.user {
+	margin-top: 8px;
+}
+
+.grid {
+	padding: 10px;
+}
+
+.card {
+	padding: 10px;
+	border: 1px solid #000;
+	margin-bottom: 12px;
+}
+
+label {
+	display: block;
+	margin: 8px 0 4px;
+	font-weight: 400;
+}
+
+input {
+	width: 100%;
+	padding: 6px;
+	border: 1px solid #000;
+}
+
+button {
+	margin-top: 8px;
+	padding: 6px 10px;
+	border: 1px solid #000;
+	background: #e0e0e0;
+	color: #000;
+	cursor: default;
+}
+
+button:hover {
+	background: #e0e0e0;
+}
+
+.message {
+	min-height: 18px;
+	margin-top: 6px;
+	color: #000;
+}
+
+.message.error {
+	color: #000;
+}
+
+.results {
+	list-style: none;
+	padding-left: 0;
+	margin: 8px 0 0;
+}
+
+.results li {
+	padding: 4px 6px;
+	border: 1px solid #000;
+	margin-bottom: 4px;
+}
