@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Color</title>
+	<link rel="stylesheet" href="css/styles.css">
+	<script defer src="js/code.js"></script>
+</head>
+<body>
+	<header class="bar">
+		<h1>Color</h1>
+		<div class="user">
+			<span id="user-name"></span>
+			<button id="logout-btn" type="button">Logout</button>
+		</div>
+	</header>
+
+	<main class="grid">
+		<section class="card">
+			<h2>Add Color</h2>
+			<form id="add-form">
+				<label for="color">Color name</label>
+				<input id="color" name="color" type="text" required>
+				<button type="submit">Add</button>
+			</form>
+			<p id="add-message" class="message"></p>
+		</section>
+
+		<section class="card">
+			<h2>Search Colors</h2>
+			<form id="search-form">
+				<label for="search">Search</label>
+				<input id="search" name="search" type="text">
+				<button type="submit">Search</button>
+			</form>
+			<p id="search-message" class="message"></p>
+			<ul id="results-list" class="results"></ul>
+		</section>
+	</main>
+</body>
+</html>
