@@ -1,0 +1,42 @@
+@startuml usecase
+!theme plain
+skinparam packageStyle rectangle
+left to right direction
+
+actor "User" as user
+
+rectangle "Colors web application" {
+  usecase "Log in" as UC_Login
+  usecase "Log out" as UC_Logout
+  usecase "Add color" as UC_Add
+  usecase "Search colors" as UC_Search
+  usecase "Open color page\n(protected)" as UC_Page
+}
+
+user --> UC_Login
+user --> UC_Logout
+user --> UC_Add
+user --> UC_Search
+user --> UC_Page
+
+UC_Add ..> UC_Page : «requires session»
+UC_Search ..> UC_Page : «requires session»
+UC_Logout ..> UC_Page : «from color page»
+
+note right of UC_Add
+  Stores a color name for the
+  signed-in user via AddColor.php
+end note
+
+note right of UC_Search
+  Lists the user's colors matching
+  a substring via SearchColors.php
+end note
+
+note bottom of UC_Login
+  Validates against Users table
+  (Login.php); client stores userId
+  in sessionStorage then loads color.html
+end note
+
+@enduml

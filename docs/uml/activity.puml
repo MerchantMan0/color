@@ -1,0 +1,63 @@
+@startuml activity
+!theme plain
+title Colors application — main flows (index.html, color.html, code.js, /api)
+
+|User|
+start
+:Open index.html;
+:Enter login and password;
+:Submit login form;
+
+|Client (browser: code.js)|
+:POST JSON to /api/Login.php;
+if (HTTP OK?) then (no)
+  :Show login error message;
+  stop
+endif
+if (response.error non-empty?) then (yes)
+  :Show server error message;
+  stop
+endif
+:Save userId, firstName, lastName\nto sessionStorage;
+:Navigate to color.html;
+:DOMContentLoaded on color page;
+if (userId in sessionStorage?) then (no)
+  :Redirect to index.html;
+  stop
+endif
+:Show "Signed in as {firstName} {lastName}";
+
+while (On color.html with valid session?) is (yes)
+  |User|
+  :Submit a form or Logout;
+  if (Add color form?) then (yes)
+    |Client|
+    :POST AddColor.php { userId, color };
+    if (OK and no error?) then (yes)
+      :Show "Color added", clear input;
+    else (no)
+      :Show add error;
+    endif
+  elseif (Search form?) then (yes)
+    |Client|
+    :POST SearchColors.php { userId, search };
+    if (OK and no error?) then (yes)
+      if (results empty?) then (yes)
+        :Show "No results";
+      else (no)
+        :Render result list;
+      endif
+    else (no)
+      :Show search error;
+    endif
+  elseif (Logout?) then (yes)
+    |Client|
+    :Clear sessionStorage;
+    :Go to index.html;
+    stop
+  endif
+endwhile (no)
+
+stop
+
+@enduml

@@ -1,0 +1,85 @@
+@startuml class
+!theme plain
+skinparam classAttributeIconSize 0
+
+package "Persistence (MySQL — COP4331)" as db {
+  class Users <<table>> {
+    +ID : int <<PK>>
+    --
+    Login : string
+    Password : string
+    FirstName : string
+    LastName : string
+  }
+
+  class Colors <<table>> {
+    +ID : int <<PK>>
+    --
+    Name : string
+    UserID : int <<FK>>
+  }
+}
+
+Users "1" o-- "0..*" Colors : owns >\n(UserID → Users.ID)
+
+package "API (PHP scripts under /api)" as api {
+  class "Login.php" as LoginPHP <<endpoint>> {
+    +POST JSON { login, password }
+    --
+    «queries» Users
+    «returns» { id, firstName, lastName, error }
+  }
+
+  class "AddColor.php" as AddPHP <<endpoint>> {
+    +POST JSON { userId, color }
+    --
+    «inserts» Colors(Name, UserID)
+    «returns» { id, error }
+  }
+
+  class "SearchColors.php" as SearchPHP <<endpoint>> {
+    +POST JSON { userId, search }
+    --
+    «selects» Colors WHERE UserID AND Name LIKE
+    «returns» { results[], error }
+  }
+}
+
+package "Browser client" as client {
+  class "index.html" as IndexHTML <<page>> {
+    login form
+  }
+
+  class "color.html" as ColorHTML <<page>> {
+    add form, search form, logout
+  }
+
+  class "code.js" as CodeJS <<script>> {
+    +postJson(path, data)
+    +doLogin()
+    +doAddColor()
+    +doSearch()
+    +doLogout()
+    +requireLogin()
+    +getUser() / saveUser() / clearUser()
+    --
+    sessionStorage: userId, firstName, lastName
+  }
+}
+
+IndexHTML ..> CodeJS : loads
+ColorHTML ..> CodeJS : loads
+CodeJS ..> LoginPHP : fetch POST
+CodeJS ..> AddPHP : fetch POST
+CodeJS ..> SearchPHP : fetch POST
+
+LoginPHP ..> Users : mysqli prepared SELECT
+AddPHP ..> Colors : mysqli prepared INSERT
+SearchPHP ..> Colors : mysqli prepared SELECT
+
+note bottom of CodeJS
+  API_BASE = "/api"; JSON bodies;
+  Redirect to index.html if no session on color page.
+end note
+
+@enduml
