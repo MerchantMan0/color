@@ -1,0 +1,18 @@
+{
+	"name": "color-app",
+	"private": true,
+	"scripts": {
+		"lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+		"lint:html": "htmlhint \"public/**/*.html\"",
+		"lint:css": "stylelint \"public/**/*.css\"",
+		"lint:js": "eslint \"public/**/*.js\""
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.17.0",
+		"eslint": "^9.17.0",
+		"globals": "^15.14.0",
+		"htmlhint": "^1.6.3",
+		"stylelint": "^16.11.0",
+		"stylelint-config-standard": "^36.0.1"
+	}
+}
